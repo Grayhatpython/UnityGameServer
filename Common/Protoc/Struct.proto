@@ -1,0 +1,17 @@
+syntax = "proto3";
+package Protocol;
+
+import "Enum.proto";
+
+//	DB ID
+//	InGame ID
+//	DataSheet ID
+
+message PlayerInfo
+{
+	uint64 objectId = 1;
+	float x = 2;
+	float y = 3;
+	float z = 4;
+	float yaw = 5;
+}

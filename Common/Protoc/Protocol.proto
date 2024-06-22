@@ -1,0 +1,66 @@
+syntax = "proto3";
+package Protocol;
+
+import "Enum.proto";
+import "Struct.proto";
+
+option csharp_namespace = "Google.Protobuf.Protocol";
+
+//	DB
+message C_LOGIN
+{
+
+}
+
+//	DB
+message S_LOGIN
+{
+	bool successed = 1;
+	//	캐릭터의 간략하게 된 정보만 -> 여기서 정보를 가지고 있어도 대긴하는데..?
+	repeated PlayerInfo players = 2;
+}
+
+message C_ENTER_GAME
+{
+	uint64 playerIndex = 1;
+}
+
+message S_ENTER_GAME
+{
+	bool successed = 1;
+	//	선택한 캐릭터의 리얼 정보
+	PlayerInfo player = 2;
+}
+
+message C_LEAVE_GAME
+{
+
+}
+
+message S_LEAVE_GAME
+{
+
+}
+
+message S_SPAWN
+{
+	repeated PlayerInfo players = 1;
+}
+
+message S_DESPAWN
+{
+	repeated uint64 objectIds = 1;
+}
+
+message C_CHAT
+{
+	string msg = 1;
+}
+
+message S_CHAT
+{
+	uint64 playerId = 1;
+	string msg = 2;
+}
+
+//	HeartBeat
