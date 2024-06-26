@@ -114,7 +114,9 @@ void SendBufferManager::PushGlobal(SendBufferChunk* buffer)
 {
 	cout << "SendBufferChunk Pool Push" << endl;
 
-	if(_isSendBufferChunkPoolPushed)
+	if (_isSendBufferChunkPoolPushed)
 		GSendBufferManager->Push(SendBufferChunkRef(buffer, PushGlobal));
+	else
+		GDeallocate(buffer);
 }
 

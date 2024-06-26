@@ -69,6 +69,23 @@ bool C_LEAVE_GAME_Packet_Processing_Function(std::shared_ptr<PacketSession>& ses
 	return true;
 }
 
+bool C_MOVE_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, Protocol::C_MOVE& packet)
+{
+	auto clientSession = static_pointer_cast<ClientSession>(session);
+	auto player = clientSession->_player;
+
+	if (player == nullptr)
+		return false;
+
+	auto room = player->_room.lock();
+	if (room == nullptr)
+		return false;
+
+	room->PushJob(&Room::Move, true, packet);
+
+	return true;
+}
+
 bool C_CHAT_Packet_Processing_Function(std::shared_ptr<PacketSession>& session, Protocol::C_CHAT& packet)
 {
 	return true;

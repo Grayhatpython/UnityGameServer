@@ -46,7 +46,7 @@ void ThreadManager::InitTLS()
 	LThreadId = SThreadId.fetch_add(1);
 
 	LThreadMemoryPoolCache = new ThreadMemoryPoolCache();
-	GThreadMemoryPoolCacheTable[LThreadId] = LThreadMemoryPoolCache;
+	//GThreadMemoryPoolCacheTable[LThreadId] = LThreadMemoryPoolCache;
 }
 
 void ThreadManager::DestroyTLS()

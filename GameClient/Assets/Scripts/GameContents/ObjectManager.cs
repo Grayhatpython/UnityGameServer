@@ -28,6 +28,11 @@ public class ObjectManager
             _objects.Add(playerInfo.ObjectId, go);
 
             MyPlayer = go.GetComponent<MyPlayerController>();
+
+            MyPlayer.Info = playerInfo;
+
+            CameraController cc = Camera.main.gameObject.GetComponent<CameraController>();
+            cc.MyPlayer = go;
         }
         else
         {
@@ -36,6 +41,8 @@ public class ObjectManager
             _objects.Add(playerInfo.ObjectId, go);
 
             PlayerController pc = go.GetComponent<PlayerController>();
+
+            //pc.Info = playerInfo;
         }
 
     }   
@@ -68,6 +75,25 @@ public class ObjectManager
     {
         foreach (UInt64 objectId in deSpawnPacket.ObjectIds)
             Despawn(objectId);
+    }
+
+    //  TEMP
+    public void Move(S_MOVE movePacket)
+    {
+        GameObject go;
+
+        if (_objects.TryGetValue(movePacket.PlayerInfo.ObjectId, out go) == false)
+            return;
+
+        if (MyPlayer.Info.ObjectId == movePacket.PlayerInfo.ObjectId)
+            return;
+
+        //  TEST
+        MyPlayerController pc = go.GetComponent<MyPlayerController>();
+        if (pc == null)
+            return;
+
+        pc.Info = movePacket.PlayerInfo;    
     }
 
     public void Clear()

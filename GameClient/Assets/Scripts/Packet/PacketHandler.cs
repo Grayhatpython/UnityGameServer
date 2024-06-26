@@ -49,6 +49,21 @@ class PacketHandler
 
         Managers.Object.Spawn(spawnPacket);
     }
+    public static void S_DESPAWN_PacketHandler(PacketSession session, IMessage packet)
+    {
+        S_DESPAWN despawnPacket = packet as S_DESPAWN;
+        ServerSession serverSession = session as ServerSession;
+
+        Managers.Object.Despawn(despawnPacket);
+    }
+
+    public static void S_MOVE_PacketHandler(PacketSession session, IMessage packet)
+    {
+        S_MOVE movePacket = packet as S_MOVE;
+        ServerSession serverSession = session as ServerSession;
+
+        Managers.Object.Move(movePacket);
+    }
 
     public static void S_CHAT_PacketHandler(PacketSession session, IMessage packet)
     {
@@ -57,11 +72,4 @@ class PacketHandler
 
     }
 
-    public static void S_DESPAWN_PacketHandler(PacketSession session, IMessage packet)
-    {
-        S_DESPAWN despawnPacket = packet as S_DESPAWN;
-        ServerSession serverSession = session as ServerSession;
-
-        Managers.Object.Despawn(despawnPacket);
-    }
 }

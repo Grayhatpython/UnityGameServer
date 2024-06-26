@@ -14,8 +14,10 @@ public enum PacketID
 	PACKET_S_LEAVE_GAME = 6,
 	PACKET_S_SPAWN = 7,
 	PACKET_S_DESPAWN = 8,
-	PACKET_C_CHAT = 9,
-	PACKET_S_CHAT = 10,
+	PACKET_C_MOVE = 9,
+	PACKET_S_MOVE = 10,
+	PACKET_C_CHAT = 11,
+	PACKET_S_CHAT = 12,
 
 }
 
@@ -54,6 +56,9 @@ class ServerPacketHandler
 		_makePacket.Add((ushort)PacketID.PACKET_S_DESPAWN, MakePacket<S_DESPAWN>);
 		_packetHandler.Add((ushort)PacketID.PACKET_S_DESPAWN, PacketHandler.S_DESPAWN_PacketHandler);
 		
+		_makePacket.Add((ushort)PacketID.PACKET_S_MOVE, MakePacket<S_MOVE>);
+		_packetHandler.Add((ushort)PacketID.PACKET_S_MOVE, PacketHandler.S_MOVE_PacketHandler);
+		
 		_makePacket.Add((ushort)PacketID.PACKET_S_CHAT, MakePacket<S_CHAT>);
 		_packetHandler.Add((ushort)PacketID.PACKET_S_CHAT, PacketHandler.S_CHAT_PacketHandler);
 
@@ -64,6 +69,8 @@ class ServerPacketHandler
         PacketNameToPacketIdTable.Add("C_ENTER_GAME", (ushort)PacketID.PACKET_C_ENTER_GAME);
 
         PacketNameToPacketIdTable.Add("C_LEAVE_GAME", (ushort)PacketID.PACKET_C_LEAVE_GAME);
+
+        PacketNameToPacketIdTable.Add("C_MOVE", (ushort)PacketID.PACKET_C_MOVE);
 
         PacketNameToPacketIdTable.Add("C_CHAT", (ushort)PacketID.PACKET_C_CHAT);
 

@@ -131,6 +131,28 @@ void Room::Leave(PlayerRef player)
 	}
 }
 
+void Room::Move(Protocol::C_MOVE movePacket)
+{
+	//	TODO : player ID check 
+	const auto objectId = movePacket.playerinfo().objectid();
+	if (_players.find(objectId) == _players.end())
+		return;
+
+	auto& player = _players[objectId];
+	//	TODO : Position Check
+	//	Update Position
+	player->_info->CopyFrom(movePacket.playerinfo());
+
+	{
+		Protocol::S_MOVE moveSendPacket;
+		auto playerInfo = moveSendPacket.mutable_playerinfo();
+		playerInfo->CopyFrom(movePacket.playerinfo());
+
+		auto sendBuffer = ClientPacketHandler::MakeSendBuffer(moveSendPacket);
+		Broadcast(sendBuffer);
+	}
+}
+
 void Room::Broadcast(SendBufferRef sendBuffer, uint64 ignoreId)
 {
 	for (auto& player : _players)
