@@ -81,14 +81,11 @@
     <ClCompile Include="main.cpp">
       <Filter>Main</Filter>
     </ClCompile>
-    <ClCompile Include="Profiler.cpp">
-      <Filter>Profiler</Filter>
-    </ClCompile>
-    <ClCompile Include="Monitoring.cpp">
-      <Filter>Profiler</Filter>
-    </ClCompile>
     <ClCompile Include="GameObjectManager.cpp">
       <Filter>GameContents</Filter>
+    </ClCompile>
+    <ClCompile Include="Profiler.cpp">
+      <Filter>Profiler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -149,17 +146,11 @@
     <ClInclude Include="GameServer.h">
       <Filter>Main</Filter>
     </ClInclude>
-    <ClInclude Include="Profiler.h">
-      <Filter>Profiler</Filter>
-    </ClInclude>
-    <ClInclude Include="Allocator.h">
-      <Filter>Profiler</Filter>
-    </ClInclude>
-    <ClInclude Include="Monitoring.h">
-      <Filter>Profiler</Filter>
-    </ClInclude>
     <ClInclude Include="GameObjectManager.h">
       <Filter>GameContents</Filter>
+    </ClInclude>
+    <ClInclude Include="Profiler.h">
+      <Filter>Profiler</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

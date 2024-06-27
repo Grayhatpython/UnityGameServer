@@ -7,62 +7,20 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using static Define;
 
-public class MyPlayerController : MonoBehaviour
+public class MyPlayerController : PlayerController
 {
-    [SerializeField]
-    float       _speed = 5.0f;
     bool        _moveKeyPressed = false;
-    Animator    _animator;
-
     float       _movePacketSendTick = 0.2f;
-    PlayerInfo  _info = new PlayerInfo();
+    bool        _isMoving = false;
 
-    public PlayerInfo Info
+    protected override void Init()
     {
-        get { return _info; }
-        set
-        {
-            if (_info.Equals(value))
-                return;
-
-            _info = value;
-            transform.position = new Vector3(_info.X, _info.Y, _info.Z);
-            transform.rotation = Quaternion.Euler(new Vector3(0.0f, _info.Yaw, 0.0f));
-        }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    { 
-        _animator = GetComponent<Animator>();
+        base.Init();
 
         StartCoroutine(CoStartMovePacketSend());
     }
 
-
-    Define.CreatureState _state = Define.CreatureState.Idle;
-
-    public Define.CreatureState State
-    {
-        get { return _state; }
-        set
-        {
-            _state = value;
-
-            switch (_state)
-            {
-                case Define.CreatureState.Idle:
-                    _animator.CrossFade("IDLE", 0.2f);
-                    break;
-                case Define.CreatureState.Moving:
-                    _animator.CrossFade("RUN", 0.001f);
-                    break;
-            }
-        }
-    }
-    //float _idle_run_ratio = 0.0f;
-
-    void Update()
+    protected override void UpdateController()
     {
         //  TEMP
         {
@@ -77,16 +35,10 @@ public class MyPlayerController : MonoBehaviour
 
         UpdateInput();
 
-        switch (_state)
-        {
-            case Define.CreatureState.Idle:
-                UpdateIdle();
-                break;
-            case Define.CreatureState.Moving:
-                UpdateMoving();
-                break;
-        }
+        base.UpdateController();
     }
+
+    //float _idle_run_ratio = 0.0f;
 
     IEnumerator CoStartMovePacketSend()
     {
@@ -100,43 +52,18 @@ public class MyPlayerController : MonoBehaviour
         }
     }
 
-    void UpdateIdle()
+    protected override void MoveToNextPos()
     {
-        //_idle_run_ratio = Mathf.Lerp(_idle_run_ratio, 0.0f, 10.0f * Time.deltaTime);
-        //_animator.SetFloat("idle_run_ratio", _idle_run_ratio);
-        //_animator.Play("IDLE_RUN");
-
-        //_animator.SetFloat("speed", 0);
-    }
-
-    bool _isMoving = false;
-
-    void UpdateMoving()
-    {
-        Vector3 moveDir = _destPos - transform.position;
-        if (moveDir.magnitude < 0.0001f)
+        if (_moveKeyPressed == false)
         {
-            _isMoving = false;
-            transform.position = _destPos;
-
-            if (_moveKeyPressed == false)
-                State = Define.CreatureState.Idle;
-        }
-        else
-        {
-            float moveDist = Mathf.Clamp(_speed * Time.deltaTime, 0, moveDir.magnitude);
-            transform.position += moveDir.normalized * moveDist;
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDir), 20 * Time.deltaTime);
+            State = Define.CreatureState.Idle;
+            return;
         }
 
-        //_idle_run_ratio = Mathf.Lerp(_idle_run_ratio, 1.0f, 10.0f * Time.deltaTime);
-        //_animator.SetFloat("idle_run_ratio", _idle_run_ratio);
-        //_animator.Play("IDLE_RUN");
-
-        //_animator.SetFloat("speed", _speed);
+        _isMoving = false;
+        transform.position = _destPos;
     }
 
-    Vector3 _destPos;
 
     void UpdateInput()
     {
@@ -144,6 +71,8 @@ public class MyPlayerController : MonoBehaviour
         //transform.TransformDirection
         //  world -> local
         //transform.InverseTransformDirection
+        if (_isMoving == true)
+            return;
 
         _moveKeyPressed = true;
 
@@ -184,7 +113,7 @@ public class MyPlayerController : MonoBehaviour
         else
             _moveKeyPressed = false;
 
-        if (_moveKeyPressed && _isMoving == false)
+        if (_moveKeyPressed)
         {
             State = Define.CreatureState.Moving;
             _destPos = destPos;

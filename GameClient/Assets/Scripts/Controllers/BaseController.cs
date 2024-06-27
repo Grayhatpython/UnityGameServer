@@ -6,12 +6,11 @@ using static Define;
 
 public abstract class BaseController : MonoBehaviour
 {
-    float _speed = 5f;
+    protected float                 _speed = 5f;
 
-    protected Define.CreatureState _state = Define.CreatureState.Idle;
-    protected Vector3 _destPos;
-    protected Define.MoveDir _dir = Define.MoveDir.Down;
-    protected Animator _animator;
+    protected Define.CreatureState  _state = Define.CreatureState.Idle;
+    protected Vector3               _destPos;
+    protected Animator              _animator;
 
     public virtual Define.CreatureState State
     {
@@ -19,23 +18,9 @@ public abstract class BaseController : MonoBehaviour
         set
         {
             _state = value;
-
-            switch(_state)
-            {
-                case Define.CreatureState.Idle:
-                    _animator.CrossFade("IDLE", 0.1f);
-                    break;
-                case Define.CreatureState.Moving:
-                    _animator.Play("RUN");
-                    //_animator.CrossFade("RUN", 1.0f);
-                    break;
-                case Define.CreatureState.Skill:
-                    break;
-                case Define.CreatureState.Die:
-                    break;
-            }
         }
     }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -70,9 +55,8 @@ public abstract class BaseController : MonoBehaviour
     protected virtual void Init()
     {
         _animator = GetComponent<Animator>();
-        transform.rotation = Quaternion.Euler(0, 180, 0);
 
-        UpdateAnimation();
+        //UpdateAnimation();
     }
 
     protected virtual void UpdateAnimation()
@@ -80,14 +64,14 @@ public abstract class BaseController : MonoBehaviour
         if (_animator == null)
             return;
 
-        if(State == Define.CreatureState.Idle)
+        switch (_state)
         {
-            _animator.CrossFade("IDLE", 0.1f);
-        }
-        else if (State == Define.CreatureState.Moving)
-        {
-            _animator.Play("RUN");
-            //_animator.CrossFade("RUN", 1.0f);
+            case Define.CreatureState.Idle:
+                _animator.CrossFade("IDLE", 0.2f);
+                break;
+            case Define.CreatureState.Moving:
+                _animator.CrossFade("RUN", 0.001f);
+                break;
         }
     }
 
@@ -104,44 +88,13 @@ public abstract class BaseController : MonoBehaviour
         }
         else
         {
-            switch (_dir)
-            {
-                case Define.MoveDir.Up:
-                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.forward), 0.2f);
-                    break;
-                case Define.MoveDir.UpLeft:
-                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.forward + Vector3.left), 0.2f);
-                    break;
-                case Define.MoveDir.Left:
-                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.left), 0.2f);
-                    break;
-                case Define.MoveDir.DownLeft:
-                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.back + Vector3.left), 0.2f);
-                    break;
-                case Define.MoveDir.Down:
-                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.back), 0.2f);
-                    break;
-                case Define.MoveDir.DownRight:
-                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.back + Vector3.right), 0.2f);
-                    break;
-                case Define.MoveDir.Right:
-                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.right), 0.2f);
-                    break;
-                case Define.MoveDir.UpRight:
-                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.forward + Vector3.right), 0.2f);
-                    break;
-            }
-
-            transform.position += moveDir.normalized * _speed * Time.deltaTime;
-            State = CreatureState.Moving;
+            float moveDist = Mathf.Clamp(_speed * Time.deltaTime, 0, moveDir.magnitude);
+            transform.position += moveDir.normalized * moveDist;
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDir), 20 * Time.deltaTime);
         }
-    }
-
-    protected virtual void MoveToNextPos()
-    {
-
     }
 
     protected virtual void UpdateSkill() { }
     protected virtual void UpdateDie() { }
+    protected virtual void MoveToNextPos() { }
 }

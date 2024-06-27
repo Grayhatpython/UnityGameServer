@@ -4,18 +4,6 @@ using UnityEngine;
 
 public class Define
 {
-    public enum MoveDir
-    {
-        Up,
-        UpLeft,
-        Left,
-        DownLeft,
-        Down,
-        DownRight,
-        Right,
-        UpRight,
-    }
-
     public enum CreatureState
     {
         Idle,

@@ -42,7 +42,7 @@ public class ObjectManager
 
             PlayerController pc = go.GetComponent<PlayerController>();
 
-            //pc.Info = playerInfo;
+            pc.Info = playerInfo;
         }
 
     }   
@@ -89,7 +89,7 @@ public class ObjectManager
             return;
 
         //  TEST
-        MyPlayerController pc = go.GetComponent<MyPlayerController>();
+        PlayerController pc = go.GetComponent<PlayerController>();
         if (pc == null)
             return;
 
