@@ -24,18 +24,25 @@ namespace Protocol {
     static EnumReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "CgpFbnVtLnByb3RvEghQcm90b2NvbCpoCgpQbGF5ZXJUeXBlEhQKEFBMQVlF",
-            "Ul9UWVBFX05PTkUQABIWChJQTEFZRVJfVFlQRV9LTklHSFQQARIUChBQTEFZ",
-            "RVJfVFlQRV9NQUdFEAISFgoSUExBWUVSX1RZUEVfQVJDSEVSEANiBnByb3Rv",
-            "Mw=="));
+            "CgpFbnVtLnByb3RvEghQcm90b2NvbCpJCglNb3ZlU3RhdGUSEwoPTU9WRV9T",
+            "VEFURV9OT05FEAASEwoPTU9WRV9TVEFURV9JRExFEAESEgoOTU9WRV9TVEFU",
+            "RV9SVU4QAipoCgpQbGF5ZXJUeXBlEhQKEFBMQVlFUl9UWVBFX05PTkUQABIW",
+            "ChJQTEFZRVJfVFlQRV9LTklHSFQQARIUChBQTEFZRVJfVFlQRV9NQUdFEAIS",
+            "FgoSUExBWUVSX1RZUEVfQVJDSEVSEANiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Protocol.PlayerType), }, null, null));
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Protocol.MoveState), typeof(global::Protocol.PlayerType), }, null, null));
     }
     #endregion
 
   }
   #region Enums
+  public enum MoveState {
+    [pbr::OriginalName("MOVE_STATE_NONE")] None = 0,
+    [pbr::OriginalName("MOVE_STATE_IDLE")] Idle = 1,
+    [pbr::OriginalName("MOVE_STATE_RUN")] Run = 2,
+  }
+
   public enum PlayerType {
     [pbr::OriginalName("PLAYER_TYPE_NONE")] None = 0,
     [pbr::OriginalName("PLAYER_TYPE_KNIGHT")] Knight = 1,

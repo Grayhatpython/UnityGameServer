@@ -36,7 +36,7 @@ GameServer* gameServer;
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	//_CrtSetBreakAlloc(6519);
+	//_CrtSetBreakAlloc(6610);
 	std::cout.imbue(std::locale("kor"));
 	std::wcout.imbue(std::locale("kor"));
 

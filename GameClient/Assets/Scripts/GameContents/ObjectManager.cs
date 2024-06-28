@@ -93,7 +93,7 @@ public class ObjectManager
         if (pc == null)
             return;
 
-        pc.Info = movePacket.PlayerInfo;    
+        pc.DestInfo = movePacket.PlayerInfo;    
     }
 
     public void Clear()

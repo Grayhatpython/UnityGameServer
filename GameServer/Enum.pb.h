@@ -56,6 +56,32 @@ PROTOBUF_NAMESPACE_OPEN
 PROTOBUF_NAMESPACE_CLOSE
 namespace Protocol {
 
+enum MoveState : int {
+  MOVE_STATE_NONE = 0,
+  MOVE_STATE_IDLE = 1,
+  MOVE_STATE_RUN = 2,
+  MoveState_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  MoveState_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool MoveState_IsValid(int value);
+constexpr MoveState MoveState_MIN = MOVE_STATE_NONE;
+constexpr MoveState MoveState_MAX = MOVE_STATE_RUN;
+constexpr int MoveState_ARRAYSIZE = MoveState_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* MoveState_descriptor();
+template<typename T>
+inline const std::string& MoveState_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, MoveState>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function MoveState_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    MoveState_descriptor(), enum_t_value);
+}
+inline bool MoveState_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, MoveState* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<MoveState>(
+    MoveState_descriptor(), name, value);
+}
 enum PlayerType : int {
   PLAYER_TYPE_NONE = 0,
   PLAYER_TYPE_KNIGHT = 1,
@@ -105,6 +131,11 @@ inline bool PlayerType_Parse(
 
 PROTOBUF_NAMESPACE_OPEN
 
+template <> struct is_proto_enum< ::Protocol::MoveState> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::MoveState>() {
+  return ::Protocol::MoveState_descriptor();
+}
 template <> struct is_proto_enum< ::Protocol::PlayerType> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::PlayerType>() {

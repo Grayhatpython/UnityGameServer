@@ -1,3 +1,4 @@
+using Protocol;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -7,17 +8,50 @@ using static Define;
 public abstract class BaseController : MonoBehaviour
 {
     protected float                 _speed = 5f;
+    protected PlayerInfo            _info = new PlayerInfo();
 
-    protected Define.CreatureState  _state = Define.CreatureState.Idle;
-    protected Vector3               _destPos;
+    //  TEMP : ¸ñÀûÁö
+    protected PlayerInfo _destInfo = new PlayerInfo();
+
     protected Animator              _animator;
 
-    public virtual Define.CreatureState State
+    public PlayerInfo Info
     {
-        get { return _state; }
+        get { return _info; }
         set
         {
-            _state = value;
+            if (_info.Equals(value))
+                return;
+
+            _info = value;
+            transform.position = new Vector3(_info.X, _info.Y, _info.Z);
+            transform.rotation = Quaternion.Euler(new Vector3(0.0f, _info.Yaw, 0.0f));
+        }
+    }
+
+    public PlayerInfo DestInfo
+    {
+        get { return _destInfo; }
+        set
+        {
+            if (_destInfo.Equals(value))
+                return;
+
+            _destInfo = value;
+            transform.position = new Vector3(_destInfo.X, _destInfo.Y, _destInfo.Z);
+            transform.rotation = Quaternion.Euler(new Vector3(0.0f, _destInfo.Yaw, 0.0f));
+        }
+    }
+
+    public virtual MoveState MoveState
+    {
+        get { return _info.State; }
+        set 
+        {
+            if (_info.State.Equals(value))
+                return;
+
+            _info.State = value;    
         }
     }
 
@@ -35,19 +69,13 @@ public abstract class BaseController : MonoBehaviour
 
     protected virtual void UpdateController()
     {
-        switch (_state)
+        switch (MoveState)
         {
-            case Define.CreatureState.Idle:
+            case MoveState.Idle:
                 UpdateIdle();
                 break;
-            case Define.CreatureState.Moving:
+            case MoveState.Run:
                 UpdateMoving();
-                break;
-            case Define.CreatureState.Skill:
-                UpdateSkill();
-                break;
-            case Define.CreatureState.Die:
-                UpdateDie();
                 break;
         }
     }
@@ -56,9 +84,18 @@ public abstract class BaseController : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
 
+        //  TEMP
+        {
+            _destInfo.X = transform.position.x;
+            _destInfo.Y = transform.position.y;
+            _destInfo.Z = transform.position.z;
+            _destInfo.Yaw = transform.rotation.eulerAngles.y;
+        }
+
         //UpdateAnimation();
     }
 
+    /*
     protected virtual void UpdateAnimation()
     {
         if (_animator == null)
@@ -74,16 +111,18 @@ public abstract class BaseController : MonoBehaviour
                 break;
         }
     }
+    */
 
     protected virtual void UpdateIdle() { }
     protected virtual void UpdateMoving()
     {
-        Vector3 moveDir = _destPos - transform.position;
+        Vector3 destPos = new Vector3(_destInfo.X, _destInfo.Y, _destInfo.Z);
+        Vector3 moveDir = destPos - transform.position;
 
         float distance = moveDir.magnitude;
         if(distance < 0.1f)
         {
-            transform.position = _destPos;
+            transform.position = destPos;
             MoveToNextPos();
         }
         else

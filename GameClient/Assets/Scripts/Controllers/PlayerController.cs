@@ -8,35 +8,22 @@ using UnityEngine.UIElements;
 
 public class PlayerController : BaseController
 {
-    protected PlayerInfo _info = new PlayerInfo();
-
-    public PlayerInfo Info
+    public override MoveState MoveState
     {
-        get { return _info; }
+        get { return _info.State; }
         set
         {
-            if (_info.Equals(value))
+            if (_info.State.Equals(value))
                 return;
 
-            _info = value;
-            transform.position = new Vector3(_info.X, _info.Y, _info.Z);
-            transform.rotation = Quaternion.Euler(new Vector3(0.0f, _info.Yaw, 0.0f));
-        }
-    }
+            _info.State = value;
 
-    public override Define.CreatureState State
-    {
-        get { return _state; }
-        set
-        {
-            _state = value;
-
-            switch (_state)
+            switch (_info.State)
             {
-                case Define.CreatureState.Idle:
+                case MoveState.Idle:
                     _animator.CrossFade("IDLE", 0.2f);
                     break;
-                case Define.CreatureState.Moving:
+                case MoveState.Run:
                     _animator.CrossFade("RUN", 0.001f);
                     break;
             }
@@ -45,6 +32,17 @@ public class PlayerController : BaseController
 
     protected override void UpdateController()
     {
+        //  TEMP
+        {
+            //  매 프레임 좌표 회전 갱신
+            _info.X = transform.position.x;
+            _info.Y = transform.position.y;
+            _info.Z = transform.position.z;
+            _info.Yaw = transform.rotation.eulerAngles.y;
+            //Debug.Log(transform.rotation.y);
+            //Debug.Log(transform.rotation.eulerAngles.y);
+        }
+
         base.UpdateController();
     }
 

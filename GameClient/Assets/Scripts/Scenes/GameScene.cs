@@ -20,7 +20,7 @@ public class GameScene : BaseScene
 
         Dictionary<int, Stat> dict = Managers.Data.StatDict;
 
-        Managers.Network.Start();
+        //Managers.Network.Start();
 
         //  Screen Size ¼³Á¤
         Screen.SetResolution(854, 480, false);

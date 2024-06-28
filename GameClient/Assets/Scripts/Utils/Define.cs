@@ -4,14 +4,6 @@ using UnityEngine;
 
 public class Define
 {
-    public enum CreatureState
-    {
-        Idle,
-        Moving,
-        Skill,
-        Die
-    }
-
     public enum Scene
     {
         Unknown,
@@ -38,11 +30,5 @@ public class Define
     {
         Press,
         Click,
-    }
-
-    public enum CameraMode
-    { 
-        QuarterView,
-        TopView
     }
 }

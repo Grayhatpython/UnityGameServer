@@ -24,13 +24,14 @@ namespace Protocol {
     static StructReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "CgxTdHJ1Y3QucHJvdG8SCFByb3RvY29sGgpFbnVtLnByb3RvIkwKClBsYXll",
+            "CgxTdHJ1Y3QucHJvdG8SCFByb3RvY29sGgpFbnVtLnByb3RvInAKClBsYXll",
             "ckluZm8SEAoIb2JqZWN0SWQYASABKAQSCQoBeBgCIAEoAhIJCgF5GAMgASgC",
-            "EgkKAXoYBCABKAISCwoDeWF3GAUgASgCYgZwcm90bzM="));
+            "EgkKAXoYBCABKAISCwoDeWF3GAUgASgCEiIKBXN0YXRlGAYgASgOMhMuUHJv",
+            "dG9jb2wuTW92ZVN0YXRlYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Protocol.EnumReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.PlayerInfo), global::Protocol.PlayerInfo.Parser, new[]{ "ObjectId", "X", "Y", "Z", "Yaw" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.PlayerInfo), global::Protocol.PlayerInfo.Parser, new[]{ "ObjectId", "X", "Y", "Z", "Yaw", "State" }, null, null, null, null)
           }));
     }
     #endregion
@@ -67,6 +68,7 @@ namespace Protocol {
       y_ = other.y_;
       z_ = other.z_;
       yaw_ = other.yaw_;
+      state_ = other.state_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -130,6 +132,17 @@ namespace Protocol {
       }
     }
 
+    /// <summary>Field number for the "state" field.</summary>
+    public const int StateFieldNumber = 6;
+    private global::Protocol.MoveState state_ = global::Protocol.MoveState.None;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Protocol.MoveState State {
+      get { return state_; }
+      set {
+        state_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as PlayerInfo);
@@ -148,6 +161,7 @@ namespace Protocol {
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Y, other.Y)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Z, other.Z)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Yaw, other.Yaw)) return false;
+      if (State != other.State) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -159,6 +173,7 @@ namespace Protocol {
       if (Y != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Y);
       if (Z != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Z);
       if (Yaw != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Yaw);
+      if (State != global::Protocol.MoveState.None) hash ^= State.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -192,6 +207,10 @@ namespace Protocol {
         output.WriteRawTag(45);
         output.WriteFloat(Yaw);
       }
+      if (State != global::Protocol.MoveState.None) {
+        output.WriteRawTag(48);
+        output.WriteEnum((int) State);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -214,6 +233,9 @@ namespace Protocol {
       }
       if (Yaw != 0F) {
         size += 1 + 4;
+      }
+      if (State != global::Protocol.MoveState.None) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) State);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -240,6 +262,9 @@ namespace Protocol {
       }
       if (other.Yaw != 0F) {
         Yaw = other.Yaw;
+      }
+      if (other.State != global::Protocol.MoveState.None) {
+        State = other.State;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -270,6 +295,10 @@ namespace Protocol {
           }
           case 45: {
             Yaw = input.ReadFloat();
+            break;
+          }
+          case 48: {
+            State = (global::Protocol.MoveState) input.ReadEnum();
             break;
           }
         }
