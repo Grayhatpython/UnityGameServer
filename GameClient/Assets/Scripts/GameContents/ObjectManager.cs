@@ -20,7 +20,6 @@ public class ObjectManager
         if (_objects.ContainsKey(playerInfo.ObjectId))
             return;
 
-
         if (isMyPlayer)
         {
             GameObject go = Managers.Resource.Instantiate("MyPlayer");
@@ -94,6 +93,7 @@ public class ObjectManager
             return;
 
         pc.DestInfo = movePacket.PlayerInfo;    
+        pc.MoveState = movePacket.PlayerInfo.State;
     }
 
     public void Clear()

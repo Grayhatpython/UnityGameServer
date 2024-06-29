@@ -15,6 +15,9 @@ public class MyPlayerController : PlayerController
     Vector3     _moveDirection;
     float       _moveYaw = 0.0f;
 
+    Vector3     _nextInputDir = Vector3.zero;   
+    Vector3     _prevInputDir = Vector3.zero;
+
     protected override void Init()
     {
         base.Init();
@@ -27,6 +30,29 @@ public class MyPlayerController : PlayerController
         UpdateInput();
 
         base.UpdateController();
+
+        {
+            bool forceMovePacketSend = false;
+
+            if (_prevInputDir != _nextInputDir)
+            {
+                forceMovePacketSend = true;
+                _prevInputDir = _nextInputDir;
+            }
+
+            //if (_nextInputDir == Vector3.zero)
+            //    MoveState = MoveState.Idle;
+            //else
+            //    MoveState = MoveState.Run;
+
+            if (forceMovePacketSend)
+            {
+                C_MOVE forceMovePacket = new C_MOVE();
+                forceMovePacket.PlayerInfo = DestInfo;
+                forceMovePacket.PlayerInfo.State = MoveState;
+                Managers.Network.Send(forceMovePacket);
+            }
+        }
     }
 
     //float _idle_run_ratio = 0.0f;
@@ -61,7 +87,6 @@ public class MyPlayerController : PlayerController
         //transform.InverseTransformDirection
 
         _moveKeyPressed = true;
-
         Vector3 destPos = Vector3.zero;
         Vector3 moveDir = Vector3.zero;
 
@@ -91,17 +116,22 @@ public class MyPlayerController : PlayerController
         if (_moveKeyPressed)
         {
             _moveDirection = Vector3.zero;
+            moveDir.y = 0;
+
+            _nextInputDir = moveDir;
+
             _moveDirection = moveDir;
-            Quaternion q = Quaternion.FromToRotation(transform.position, transform.position + _moveDirection);
+
+            Quaternion q = Quaternion.LookRotation(moveDir);    
             _moveYaw = q.eulerAngles.y;
 
             MoveState = MoveState.Run;
-            moveDir.y = 0;
             destPos = transform.position + moveDir;
 
             _destInfo.X = destPos.x;
             _destInfo.Y = destPos.y;
             _destInfo.Z = destPos.z;
+            _destInfo.Yaw = _moveYaw;
         }
     }
 }

@@ -6,9 +6,10 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 { 
 
-    public GameObject MyPlayer = null;
-    private Vector2 _moveDelta = Vector2.zero;
-    private float _distance = 5.0f;
+    public GameObject   MyPlayer = null;
+    private Vector2     _moveDelta = Vector2.zero;
+    private float       _distance = 5.0f;
+    bool                _cursorLocked = true;
 
     // Start is called before the first frame update
     void Start()
@@ -17,23 +18,36 @@ public class CameraController : MonoBehaviour
 
         _moveDelta.x += Input.GetAxis("Mouse X")/* * mouseSensitivity * Time.deltaTime*/;
         _moveDelta.y -= Input.GetAxis("Mouse Y")/* * mouseSensitivity * Time.deltaTime*/;
-        _moveDelta.y = Mathf.Clamp(_moveDelta.y, 15.0f, 90f);
+        _moveDelta.y = Mathf.Clamp(_moveDelta.y, 15.0f, 90f);  
 
     }
     private float mouseSensitivity = 400f; //마우스감도
 
     private void Update()
     {
-        if (Input.GetMouseButton(1))
+        if (Input.GetKey(KeyCode.F1))
         {
-            _moveDelta.x += Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-            _moveDelta.y -= Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
-            _moveDelta.y = Mathf.Clamp(_moveDelta.y, 15.0f, 90f);
+            if(_cursorLocked)
+                Cursor.lockState = CursorLockMode.None;
+            else
+                Cursor.lockState = CursorLockMode.Confined;
+
+            _cursorLocked = !_cursorLocked;
         }
 
-        transform.rotation = Quaternion.Euler(_moveDelta.y, _moveDelta.x, 0);
-        Vector3 distance = new Vector3(0.0f, 0.0f, _distance);
-        transform.position = MyPlayer.transform.position - transform.rotation * distance;
+        if (MyPlayer)
+        {
+            if (Input.GetMouseButton(1))
+            {
+                _moveDelta.x += Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+                _moveDelta.y -= Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+                _moveDelta.y = Mathf.Clamp(_moveDelta.y, 15.0f, 90f);
+            }
+
+            transform.rotation = Quaternion.Euler(_moveDelta.y, _moveDelta.x, 0);
+            Vector3 distance = new Vector3(0.0f, 0.0f, _distance);
+            transform.position = MyPlayer.transform.position - transform.rotation * distance;
+        }
     }
 
     // Update is called once per frame

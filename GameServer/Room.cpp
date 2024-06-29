@@ -34,7 +34,6 @@ void Room::Enter(PlayerRef player)
 		player->_info->set_y(0);
 		player->_info->set_z(Utils::GetRandom(0.f, 50.f));
 		player->_info->set_yaw(Utils::GetRandom(0.f, 100.f));
-
 		successd = true;
 	}
 

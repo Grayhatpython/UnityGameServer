@@ -39,8 +39,6 @@ public class PlayerController : BaseController
             _info.Y = transform.position.y;
             _info.Z = transform.position.z;
             _info.Yaw = transform.rotation.eulerAngles.y;
-            //Debug.Log(transform.rotation.y);
-            //Debug.Log(transform.rotation.eulerAngles.y);
         }
 
         base.UpdateController();

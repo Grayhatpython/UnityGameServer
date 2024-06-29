@@ -9,10 +9,8 @@ public abstract class BaseController : MonoBehaviour
 {
     protected float                 _speed = 5f;
     protected PlayerInfo            _info = new PlayerInfo();
-
     //  TEMP : ¸ñÀûÁö
-    protected PlayerInfo _destInfo = new PlayerInfo();
-
+    protected PlayerInfo            _destInfo = new PlayerInfo();
     protected Animator              _animator;
 
     public PlayerInfo Info
@@ -38,8 +36,6 @@ public abstract class BaseController : MonoBehaviour
                 return;
 
             _destInfo = value;
-            transform.position = new Vector3(_destInfo.X, _destInfo.Y, _destInfo.Z);
-            transform.rotation = Quaternion.Euler(new Vector3(0.0f, _destInfo.Yaw, 0.0f));
         }
     }
 
@@ -84,12 +80,13 @@ public abstract class BaseController : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
 
-        //  TEMP
         {
             _destInfo.X = transform.position.x;
             _destInfo.Y = transform.position.y;
             _destInfo.Z = transform.position.z;
             _destInfo.Yaw = transform.rotation.eulerAngles.y;
+
+            MoveState = MoveState.Idle;
         }
 
         //UpdateAnimation();
@@ -129,7 +126,9 @@ public abstract class BaseController : MonoBehaviour
         {
             float moveDist = Mathf.Clamp(_speed * Time.deltaTime, 0, moveDir.magnitude);
             transform.position += moveDir.normalized * moveDist;
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDir), 20 * Time.deltaTime);
+            Quaternion destRotation  = Quaternion.Euler(0.0f, _destInfo.Yaw, 0.0f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, destRotation, 20 * Time.deltaTime);
+            //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDir), 20 * Time.deltaTime);
         }
     }
 
