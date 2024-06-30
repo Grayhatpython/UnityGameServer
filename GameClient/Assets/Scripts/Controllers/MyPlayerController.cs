@@ -48,8 +48,8 @@ public class MyPlayerController : PlayerController
             if (forceMovePacketSend)
             {
                 C_MOVE forceMovePacket = new C_MOVE();
-                forceMovePacket.PlayerInfo = DestInfo;
-                forceMovePacket.PlayerInfo.State = MoveState;
+                forceMovePacket.PositionInfo = DestInfo;
+                forceMovePacket.PositionInfo.State = MoveState;
                 Managers.Network.Send(forceMovePacket);
             }
         }
@@ -64,7 +64,7 @@ public class MyPlayerController : PlayerController
         {
             yield return new WaitForSeconds(_movePacketSendTick);
             C_MOVE movePacket = new C_MOVE();
-            movePacket.PlayerInfo = Info;
+            movePacket.PositionInfo = Info;
             Managers.Network.Send(movePacket);
         }
     }

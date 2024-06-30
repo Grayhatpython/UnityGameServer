@@ -11,24 +11,24 @@ public class ObjectManager
     public MyPlayerController MyPlayer { get; set; }
     Dictionary<UInt64, GameObject> _objects= new Dictionary<UInt64, GameObject>();
 
-    public void Spawn(Protocol.PlayerInfo playerInfo, bool isMyPlayer)
+    public void Spawn(Protocol.ObjectInfo objectInfo, bool isMyPlayer)
     {
         //if (MyPlayer != null)
         //    return;
 
         //  이미 있는 경우 스킵
-        if (_objects.ContainsKey(playerInfo.ObjectId))
+        if (_objects.ContainsKey(objectInfo.ObjectId))
             return;
 
         if (isMyPlayer)
         {
             GameObject go = Managers.Resource.Instantiate("MyPlayer");
-            go.transform.position = new Vector3(playerInfo.X, playerInfo.Y, playerInfo.Z);
-            _objects.Add(playerInfo.ObjectId, go);
+            go.transform.position = new Vector3(objectInfo.PositionInfo.X, objectInfo.PositionInfo.Y, objectInfo.PositionInfo.Z);
+            _objects.Add(objectInfo.ObjectId, go);
 
             MyPlayer = go.GetComponent<MyPlayerController>();
 
-            MyPlayer.Info = playerInfo;
+            MyPlayer.Info = objectInfo.PositionInfo;
 
             CameraController cc = Camera.main.gameObject.GetComponent<CameraController>();
             cc.MyPlayer = go;
@@ -36,12 +36,12 @@ public class ObjectManager
         else
         {
             GameObject go = Managers.Resource.Instantiate("Player");
-            go.transform.position = new Vector3(playerInfo.X, playerInfo.Y, playerInfo.Z);
-            _objects.Add(playerInfo.ObjectId, go);
+            go.transform.position = new Vector3(objectInfo.PositionInfo.X, objectInfo.PositionInfo.Y, objectInfo.PositionInfo.Z);
+            _objects.Add(objectInfo.ObjectId, go);
 
             PlayerController pc = go.GetComponent<PlayerController>();
 
-            pc.Info = playerInfo;
+            pc.Info = objectInfo.PositionInfo;
         }
 
     }   
@@ -53,8 +53,8 @@ public class ObjectManager
 
     public void Spawn(S_SPAWN spawnPacket)
     {
-        foreach (Protocol.PlayerInfo playerInfo in spawnPacket.Players)
-            Spawn(playerInfo, false);
+        foreach (Protocol.ObjectInfo objectInfo in spawnPacket.Objects)
+            Spawn(objectInfo, false);
     }
 
     public void Despawn(UInt64 objectId)
@@ -81,10 +81,10 @@ public class ObjectManager
     {
         GameObject go;
 
-        if (_objects.TryGetValue(movePacket.PlayerInfo.ObjectId, out go) == false)
+        if (_objects.TryGetValue(movePacket.PositionInfo.ObjectId, out go) == false)
             return;
 
-        if (MyPlayer.Info.ObjectId == movePacket.PlayerInfo.ObjectId)
+        if (MyPlayer.Info.ObjectId == movePacket.PositionInfo.ObjectId)
             return;
 
         //  TEST
@@ -92,8 +92,8 @@ public class ObjectManager
         if (pc == null)
             return;
 
-        pc.DestInfo = movePacket.PlayerInfo;    
-        pc.MoveState = movePacket.PlayerInfo.State;
+        pc.DestInfo = movePacket.PositionInfo;    
+        pc.MoveState = movePacket.PositionInfo.State;
     }
 
     public void Clear()

@@ -15,7 +15,7 @@ class PacketHandler
         ServerSession serverSession = session as ServerSession;
 
         //  로비에서 캐릭터 선택해서 캐릭터 넘버(인덱스) 전송
-        foreach(Protocol.PlayerInfo player in loginPacket.Players)
+        foreach(Protocol.ObjectInfo player in loginPacket.Players)
         {
             ;
         }

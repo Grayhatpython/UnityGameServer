@@ -10,8 +10,8 @@ public:
 
 public:
 	//	Recv Packet Process Func
-	void Enter(PlayerRef player);
-	void Leave(PlayerRef player);
+	void Enter(GameObjectRef gameObject);
+	void Leave(uint64 gameObjectId);
 	void Move(Protocol::C_MOVE movePacket);
 	void Broadcast(SendBufferRef sendBuffer, uint64 ignoreId = 0);
 
@@ -24,7 +24,7 @@ public:
 	RoomRef GetRoomRef() { return static_pointer_cast<Room>(shared_from_this()); }
 
 private:
-	unordered_map<uint64, PlayerRef> _players;
+	unordered_map<uint64, GameObjectRef> _gameObjects;
 };
 
 //	TEMP

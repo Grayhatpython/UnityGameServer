@@ -23,10 +23,12 @@ bool C_LOGIN_Packet_Processing_Function(std::shared_ptr<PacketSession>& session,
 	for (int32 i = 0; i < 2; i++)
 	{
 		auto player = loginPacket.add_players();
-		player->set_x(Utils::GetRandom(0.f, 100.f));
-		player->set_y(0);
-		player->set_z(Utils::GetRandom(0.f, 100.f));
-		player->set_yaw(Utils::GetRandom(0.f, 45.f));
+		auto positionInfo = player->mutable_positioninfo();
+
+		positionInfo->set_x(Utils::GetRandom(0.f, 100.f));
+		positionInfo->set_y(0);
+		positionInfo->set_z(Utils::GetRandom(0.f, 100.f));
+		positionInfo->set_yaw(Utils::GetRandom(0.f, 45.f));
 	}
 
 	loginPacket.set_successed(true);
@@ -41,13 +43,15 @@ bool C_ENTER_GAME_Packet_Processing_Function(std::shared_ptr<PacketSession>& ses
 {
 	//	플레이어 생성
 	auto clientSession = static_pointer_cast<ClientSession>(session);
+	//	TEMP
 	auto player = GameObjectManager::CreatePlayer(clientSession);
 
 	if (player == nullptr)
 		return false;
 
 	//	Room Enter
-	GRoom->PushJob(&Room::Enter, true, player);
+	//	TEMP	
+	GRoom->PushJob(&Room::Enter, true, static_pointer_cast<GameObject>(player));
 
 	return true;
 }
@@ -64,7 +68,7 @@ bool C_LEAVE_GAME_Packet_Processing_Function(std::shared_ptr<PacketSession>& ses
 	if (room == nullptr)
 		return false;
 
-	room->PushJob(&Room::Leave, true, player);
+	room->PushJob(&Room::Leave, true, player->_objectInfo->objectid());
 
 	return true;
 }

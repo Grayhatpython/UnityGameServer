@@ -11,7 +11,8 @@ PlayerRef GameObjectManager::CreatePlayer(ClientSessionRef session)
 	const auto id = S_autoincrementId.fetch_add(1);
 
 	auto player = MakeShared<Player>();
-	player->_info->set_objectid(id);
+	player->_objectInfo->set_objectid(id);
+	player->_positionInfo->set_objectid(id);
 	player->_ownerSession = session;
 	//session->_player.store(player);
 	session->_player = player;

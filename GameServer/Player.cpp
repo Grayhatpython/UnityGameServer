@@ -3,11 +3,10 @@
 
 Player::Player()
 {
-	//	TODO
-	_info = GAllocate<Protocol::PlayerInfo>();
+	_isPlayer = true;
 }
 
 Player::~Player()
 {
-	GDeallocate(_info);
+
 }

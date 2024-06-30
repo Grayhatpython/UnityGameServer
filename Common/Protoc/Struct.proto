@@ -7,7 +7,7 @@ import "Enum.proto";
 //	InGame ID
 //	DataSheet ID
 
-message PlayerInfo
+message PositionInfo
 {
 	uint64		objectId = 1;
 	float		x = 2;
@@ -15,4 +15,11 @@ message PlayerInfo
 	float		z = 4;
 	float		yaw = 5;
 	MoveState	state = 6;
+}
+
+message ObjectInfo
+{
+	uint64			objectId = 1;
+	ObjectType		objectType = 2;
+	PositionInfo	positionInfo = 3;
 }

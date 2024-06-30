@@ -10,15 +10,15 @@ public class PlayerController : BaseController
 {
     public override MoveState MoveState
     {
-        get { return _info.State; }
+        get { return _positionInfo.State; }
         set
         {
-            if (_info.State.Equals(value))
+            if (_positionInfo.State.Equals(value))
                 return;
 
-            _info.State = value;
+            _positionInfo.State = value;
 
-            switch (_info.State)
+            switch (_positionInfo.State)
             {
                 case MoveState.Idle:
                     _animator.CrossFade("IDLE", 0.2f);
@@ -35,10 +35,10 @@ public class PlayerController : BaseController
         //  TEMP
         {
             //  매 프레임 좌표 회전 갱신
-            _info.X = transform.position.x;
-            _info.Y = transform.position.y;
-            _info.Z = transform.position.z;
-            _info.Yaw = transform.rotation.eulerAngles.y;
+            _positionInfo.X = transform.position.x;
+            _positionInfo.Y = transform.position.y;
+            _positionInfo.Z = transform.position.z;
+            _positionInfo.Yaw = transform.rotation.eulerAngles.y;
         }
 
         base.UpdateController();

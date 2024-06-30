@@ -34,7 +34,7 @@ void  ClientSession::OnDisconnected()
 	if (_player)
 	{
 		if (auto room = _player->_room.lock())
-			room->PushJob(&Room::Leave, true, _player);
+			room->PushJob(&Room::Leave, true, _player->_objectInfo->objectid());
 	}
 
 	_player = nullptr;

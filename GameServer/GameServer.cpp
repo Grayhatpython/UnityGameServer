@@ -27,8 +27,6 @@ bool GameServer::Initialize()
 
 	ASSERT_CRASH(_service);
 
-	this_thread::sleep_for(100ms);
-
 	return true;
 }
 

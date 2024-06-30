@@ -87,6 +87,15 @@
     <ClCompile Include="Profiler.cpp">
       <Filter>Profiler</Filter>
     </ClCompile>
+    <ClCompile Include="Creature.cpp">
+      <Filter>GameContents</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>GameContents</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>GameContents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -151,6 +160,15 @@
     </ClInclude>
     <ClInclude Include="Profiler.h">
       <Filter>Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>GameContents</Filter>
+    </ClInclude>
+    <ClInclude Include="Creature.h">
+      <Filter>GameContents</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>GameContents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

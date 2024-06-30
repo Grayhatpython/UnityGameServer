@@ -17,7 +17,7 @@ message S_LOGIN
 {
 	bool successed = 1;
 	//	캐릭터의 간략하게 된 정보만 -> 여기서 정보를 가지고 있어도 대긴하는데..?
-	repeated PlayerInfo players = 2;
+	repeated ObjectInfo players = 2;
 }
 
 message C_ENTER_GAME
@@ -29,7 +29,7 @@ message S_ENTER_GAME
 {
 	bool successed = 1;
 	//	선택한 캐릭터의 리얼 정보
-	PlayerInfo player = 2;
+	ObjectInfo player = 2;
 }
 
 message C_LEAVE_GAME
@@ -44,7 +44,7 @@ message S_LEAVE_GAME
 
 message S_SPAWN
 {
-	repeated PlayerInfo players = 1;
+	repeated ObjectInfo objects = 1;
 }
 
 message S_DESPAWN
@@ -54,12 +54,12 @@ message S_DESPAWN
 
 message C_MOVE
 {
-	PlayerInfo playerInfo = 1;
+	PositionInfo positionInfo = 1;
 }
 
 message S_MOVE
 {
-	PlayerInfo playerInfo = 1;
+	PositionInfo positionInfo = 1;
 }
 
 message C_CHAT

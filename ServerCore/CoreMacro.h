@@ -31,7 +31,7 @@ inline void AssertFail(LPCSTR file, int line, PCSTR cause) {
 	Fail(str);
 }
 
-#ifdef DEBUG
+#ifdef _DEBUG
 #define ASSERT_CRASH(cause) if (!(cause)) AssertFail(__FILE__, __LINE__, #cause)
 #else
 #define ASSERT_CRASH(cause)			\
@@ -44,13 +44,5 @@ inline void AssertFail(LPCSTR file, int line, PCSTR cause) {
 }
 
 #endif
-
-
-#ifdef _DEBUG
-	#ifndef _MEMORY_POOL
-		#define _STOMP
-	#endif
-#else
-#endif // _DEBUG
 
 

@@ -8,26 +8,26 @@ using static Define;
 public abstract class BaseController : MonoBehaviour
 {
     protected float                 _speed = 5f;
-    protected PlayerInfo            _info = new PlayerInfo();
+    protected PositionInfo          _positionInfo = new PositionInfo();
     //  TEMP : ¸ñÀûÁö
-    protected PlayerInfo            _destInfo = new PlayerInfo();
+    protected PositionInfo          _destInfo = new PositionInfo();
     protected Animator              _animator;
 
-    public PlayerInfo Info
+    public PositionInfo Info
     {
-        get { return _info; }
+        get { return _positionInfo; }
         set
         {
-            if (_info.Equals(value))
+            if (_positionInfo.Equals(value))
                 return;
 
-            _info = value;
-            transform.position = new Vector3(_info.X, _info.Y, _info.Z);
-            transform.rotation = Quaternion.Euler(new Vector3(0.0f, _info.Yaw, 0.0f));
+            _positionInfo = value;
+            transform.position = new Vector3(_positionInfo.X, _positionInfo.Y, _positionInfo.Z);
+            transform.rotation = Quaternion.Euler(new Vector3(0.0f, _positionInfo.Yaw, 0.0f));
         }
     }
 
-    public PlayerInfo DestInfo
+    public PositionInfo DestInfo
     {
         get { return _destInfo; }
         set
@@ -41,13 +41,13 @@ public abstract class BaseController : MonoBehaviour
 
     public virtual MoveState MoveState
     {
-        get { return _info.State; }
+        get { return _positionInfo.State; }
         set 
         {
-            if (_info.State.Equals(value))
+            if (_positionInfo.State.Equals(value))
                 return;
 
-            _info.State = value;    
+            _positionInfo.State = value;    
         }
     }
 

@@ -16,51 +16,58 @@ Room::~Room()
 
 }
 
-void Room::Enter(PlayerRef player)
+void Room::Enter(GameObjectRef gameObject)
 {
 	bool successd = false;
 
-	auto objectId = player->_info->objectid();
-	if (_players.find(objectId) != _players.end())
+	auto objectId = gameObject->_objectInfo->objectid();
+	if (_gameObjects.find(objectId) != _gameObjects.end())
 		successd = false;
 	else
 	{
-		_players.insert(make_pair(objectId, player));
+		_gameObjects.insert(make_pair(objectId, gameObject));
 
 		//player->_room.store(GetRoomRef());
-		player->_room = GetRoomRef();
+		gameObject->_room = GetRoomRef();
 
-		player->_info->set_x(Utils::GetRandom(0.f, 50.f));
-		player->_info->set_y(0);
-		player->_info->set_z(Utils::GetRandom(0.f, 50.f));
-		player->_info->set_yaw(Utils::GetRandom(0.f, 100.f));
+		gameObject->_positionInfo->set_x(Utils::GetRandom(0.f, 50.f));
+		gameObject->_positionInfo->set_y(0);
+		gameObject->_positionInfo->set_z(Utils::GetRandom(0.f, 50.f));
+		gameObject->_positionInfo->set_yaw(Utils::GetRandom(0.f, 100.f));
 		successd = true;
 	}
 
 	//	Room Enter 성공을 새로운 플레이어에게 전송
 	{
-		Protocol::S_ENTER_GAME enterGamePacket;
-		enterGamePacket.set_successed(successd);
+		if (gameObject->_isPlayer)
+		{
+			Protocol::S_ENTER_GAME enterGamePacket;
+			enterGamePacket.set_successed(successd);
 
-		//	사실 방식은 여러 개가 있다.
-		Protocol::PlayerInfo* playerInfo = new Protocol::PlayerInfo();
-		playerInfo->CopyFrom(*player->_info);
+			//	사실 방식은 여러 개가 있다.
+			auto objectInfo = new Protocol::ObjectInfo();
+			objectInfo->CopyFrom(*gameObject->_objectInfo);
 
-		//	enterGamePacket 소멸 시 playerInfo* 삭제
-		//	성능은 조금 포기하지만 일반 포인터처럼 수동으로 관리하지 않아도 스마트포인터처럼 알아서 소멸함
-		enterGamePacket.set_allocated_player(playerInfo);
+			//	enterGamePacket 소멸 시 playerInfo* 삭제
+			//	성능은 조금 포기하지만 일반 포인터처럼 수동으로 관리하지 않아도 스마트포인터처럼 알아서 소멸함
+			enterGamePacket.set_allocated_player(objectInfo);
 
-		auto sendBuffer = ClientPacketHandler::MakeSendBuffer(enterGamePacket);
-		if (auto session = player->_ownerSession)
-			session->Send(sendBuffer);
+			auto sendBuffer = ClientPacketHandler::MakeSendBuffer(enterGamePacket);
+		
+
+			auto player = static_pointer_cast<Player>(gameObject);
+			auto session = player->_ownerSession;
+			if (session)
+				session->Send(sendBuffer);
+		}
 	}
 
 	//	새로운 플레이어의 접속을 기존 플레이어들에게 전송
 	{
 		Protocol::S_SPAWN spawnPacket;
 
-		auto playerInfo = spawnPacket.add_players();
-		playerInfo->CopyFrom(*player->_info);
+		auto playerInfo = spawnPacket.add_objects();
+		playerInfo->CopyFrom(*gameObject->_objectInfo);
 
 		auto sendBuffer = ClientPacketHandler::MakeSendBuffer(spawnPacket);
 
@@ -71,81 +78,92 @@ void Room::Enter(PlayerRef player)
 
 	//	새로운 플레이어에게 기존에 접속되어있던 플레이어 목록을 전송
 	{
-		Protocol::S_SPAWN spawnPacket;
-
-		for (auto& inGamePlayerInfo : _players)
+		if (gameObject->_isPlayer)
 		{
-			//	나 자신은 제외
-			//	나 자신은 이미 S_ENTER_GAME Packet으로 정보를 전송받음
-			auto inGamePlayer = inGamePlayerInfo.second;
-			if (inGamePlayer->_info->objectid() == objectId)
-				continue;
+			Protocol::S_SPAWN spawnPacket;
 
-			auto addPlayer = spawnPacket.add_players();
-			addPlayer->CopyFrom(*inGamePlayer->_info);
+			for (auto& gameObject : _gameObjects)
+			{
+				//	나 자신은 제외
+				//	나 자신은 이미 S_ENTER_GAME Packet으로 정보를 전송받음
+				auto inGameObject = gameObject.second;
+				if (inGameObject->_objectInfo->objectid() == objectId)
+					continue;
+
+				auto addPlayer = spawnPacket.add_objects();
+				addPlayer->CopyFrom(*inGameObject->_objectInfo);
+			}
+
+			auto sendBuffer = ClientPacketHandler::MakeSendBuffer(spawnPacket);
+
+			auto player = static_pointer_cast<Player>(gameObject);
+			auto session = player->_ownerSession;
+			if (session)
+				session->Send(sendBuffer);
 		}
-
-		auto sendBuffer = ClientPacketHandler::MakeSendBuffer(spawnPacket);
-		if (auto session = player->_ownerSession)
-			session->Send(sendBuffer);
 	}
 }
 
-void Room::Leave(PlayerRef player)
+void Room::Leave(uint64 gameObjectId)
 {
-	if (player == nullptr)
-		return;
-
 	//	인메모리 삭제 과정
-	auto objectId = player->_info->objectid();
-	if (_players.find(objectId) == _players.end())
+	auto gameObject = _gameObjects.find(gameObjectId);
+	if (gameObject == _gameObjects.end())
 		return;
 
-	player->_room = weak_ptr<Room>();
-	_players.erase(objectId);
-
+	if (gameObject->second->_isPlayer)
 	{
-		//	나가는 유저 본인에게 전송
-		Protocol::S_LEAVE_GAME leaveGamePacket;
-		auto sendBuffer = ClientPacketHandler::MakeSendBuffer(leaveGamePacket);
+		//	TEMP
+		auto player = static_pointer_cast<Player>(gameObject->second);
 
-		//	흠...
-		if (auto session = player->_ownerSession)
-			session->Send(sendBuffer);
+		{
+			//	나가는 유저 본인에게 전송
+			Protocol::S_LEAVE_GAME leaveGamePacket;
+			auto sendBuffer = ClientPacketHandler::MakeSendBuffer(leaveGamePacket);
+
+			auto session = player->_ownerSession;
+
+			//	흠...
+			if (session)
+				session->Send(sendBuffer);
+		}
 	}
 
 	{
 		//	나가는 유저의 id를 접속해있는데 유저에게 전송
 		Protocol::S_DESPAWN despawnPacket;
-		despawnPacket.add_objectids(objectId);
+		despawnPacket.add_objectids(gameObjectId);
 		auto sendBuffer = ClientPacketHandler::MakeSendBuffer(despawnPacket);
 
 		//	나 자신은 제외
 		//	나 자신은 이미 S_LEAVE_GAME Packet으로 정보를 전송받음
-		//	위에서 이미 players의 컨테이너에서 삭제를 해서 의미 없긴 함..
-		Broadcast(sendBuffer, objectId);
+		//	이중으로 받을지는?
+		Broadcast(sendBuffer, gameObjectId);
 
 		//if (auto session = player->_ownerSession.lock())
 		//	session->Send(sendBuffer);
 	}
+
+	gameObject->second->_room = weak_ptr<Room>();
+	_gameObjects.erase(gameObjectId);
 }
 
 void Room::Move(Protocol::C_MOVE movePacket)
 {
 	//	TODO : player ID check 
-	const auto objectId = movePacket.playerinfo().objectid();
-	if (_players.find(objectId) == _players.end())
+	const auto objectId = movePacket.positioninfo().objectid();
+	if (_gameObjects.find(objectId) == _gameObjects.end())
 		return;
 
-	auto& player = _players[objectId];
+	auto& gameObject = _gameObjects[objectId];
 	//	TODO : Position Check
 	//	Update Position
-	player->_info->CopyFrom(movePacket.playerinfo());
+	gameObject->_positionInfo->CopyFrom(movePacket.positioninfo());
 
 	{
 		Protocol::S_MOVE moveSendPacket;
-		auto playerInfo = moveSendPacket.mutable_playerinfo();
-		playerInfo->CopyFrom(movePacket.playerinfo());
+		auto positionInfo = moveSendPacket.mutable_positioninfo();
+		positionInfo->CopyFrom(movePacket.positioninfo());
 
 		auto sendBuffer = ClientPacketHandler::MakeSendBuffer(moveSendPacket);
 		Broadcast(sendBuffer);
@@ -154,19 +172,23 @@ void Room::Move(Protocol::C_MOVE movePacket)
 
 void Room::Broadcast(SendBufferRef sendBuffer, uint64 ignoreId)
 {
-	for (auto& player : _players)
+	for (auto& gameObject : _gameObjects)
 	{
-		auto objectId = player.second->_info->objectid();
+		auto objectId = gameObject.second->_objectInfo->objectid();
 
 		if (objectId == ignoreId)
 			continue;
 
-		auto session = player.second->_ownerSession;
+		if (gameObject.second->_isPlayer)
+		{
+			auto player = static_pointer_cast<Player>(gameObject.second);
+			auto session = player->_ownerSession;
 
-		//	컨테이너 반복문 중에 Send를 하고 있는데
-		//	어떤 이슈로 인해 _players 컨테이너에 삭제 or 삽입 이슈가 생긴다면?
-		if (session)
-			session->Send(sendBuffer);
+			//	컨테이너 반복문 중에 Send를 하고 있는데
+			//	어떤 이슈로 인해 _players 컨테이너에 삭제 or 삽입 이슈가 생긴다면?
+			if (session)
+				session->Send(sendBuffer);
+		}
 	}
 }
 

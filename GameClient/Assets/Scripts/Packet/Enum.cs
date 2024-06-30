@@ -24,23 +24,44 @@ namespace Protocol {
     static EnumReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "CgpFbnVtLnByb3RvEghQcm90b2NvbCpJCglNb3ZlU3RhdGUSEwoPTU9WRV9T",
-            "VEFURV9OT05FEAASEwoPTU9WRV9TVEFURV9JRExFEAESEgoOTU9WRV9TVEFU",
-            "RV9SVU4QAipoCgpQbGF5ZXJUeXBlEhQKEFBMQVlFUl9UWVBFX05PTkUQABIW",
-            "ChJQTEFZRVJfVFlQRV9LTklHSFQQARIUChBQTEFZRVJfVFlQRV9NQUdFEAIS",
-            "FgoSUExBWUVSX1RZUEVfQVJDSEVSEANiBnByb3RvMw=="));
+            "CgpFbnVtLnByb3RvEghQcm90b2NvbCptCgpPYmplY3RUeXBlEhQKEE9CSkVD",
+            "VF9UWVBFX05PTkUQABIYChRPQkpFQ1RfVFlQRV9DUkVBVFVSRRABEhMKD09C",
+            "SkVDVF9UWVBFX0VOVhACEhoKFk9CSkVDVF9UWVBFX1BST0pFQ1RJTEUQAypy",
+            "CgxDcmVhdHVyZVR5cGUSFgoSQ1JFQVRVUkVfVFlQRV9OT05FEAASGAoUQ1JF",
+            "QVRVUkVfVFlQRV9QTEFZRVIQARIZChVDUkVBVFVSRV9UWVBFX01PTlNURVIQ",
+            "AhIVChFDUkVBVFVSRV9UWVBFX05QQxADKl8KCU1vdmVTdGF0ZRITCg9NT1ZF",
+            "X1NUQVRFX05PTkUQABITCg9NT1ZFX1NUQVRFX0lETEUQARISCg5NT1ZFX1NU",
+            "QVRFX1JVThACEhQKEE1PVkVfU1RBVEVfU0tJTEwQAypoCgpQbGF5ZXJUeXBl",
+            "EhQKEFBMQVlFUl9UWVBFX05PTkUQABIWChJQTEFZRVJfVFlQRV9LTklHSFQQ",
+            "ARIUChBQTEFZRVJfVFlQRV9NQUdFEAISFgoSUExBWUVSX1RZUEVfQVJDSEVS",
+            "EANiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Protocol.MoveState), typeof(global::Protocol.PlayerType), }, null, null));
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Protocol.ObjectType), typeof(global::Protocol.CreatureType), typeof(global::Protocol.MoveState), typeof(global::Protocol.PlayerType), }, null, null));
     }
     #endregion
 
   }
   #region Enums
+  public enum ObjectType {
+    [pbr::OriginalName("OBJECT_TYPE_NONE")] None = 0,
+    [pbr::OriginalName("OBJECT_TYPE_CREATURE")] Creature = 1,
+    [pbr::OriginalName("OBJECT_TYPE_ENV")] Env = 2,
+    [pbr::OriginalName("OBJECT_TYPE_PROJECTILE")] Projectile = 3,
+  }
+
+  public enum CreatureType {
+    [pbr::OriginalName("CREATURE_TYPE_NONE")] None = 0,
+    [pbr::OriginalName("CREATURE_TYPE_PLAYER")] Player = 1,
+    [pbr::OriginalName("CREATURE_TYPE_MONSTER")] Monster = 2,
+    [pbr::OriginalName("CREATURE_TYPE_NPC")] Npc = 3,
+  }
+
   public enum MoveState {
     [pbr::OriginalName("MOVE_STATE_NONE")] None = 0,
     [pbr::OriginalName("MOVE_STATE_IDLE")] Idle = 1,
     [pbr::OriginalName("MOVE_STATE_RUN")] Run = 2,
+    [pbr::OriginalName("MOVE_STATE_SKILL")] Skill = 3,
   }
 
   public enum PlayerType {

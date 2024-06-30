@@ -90,7 +90,7 @@ struct S_LEAVE_GAMEDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT S_LEAVE_GAMEDefaultTypeInternal _S_LEAVE_GAME_default_instance_;
 constexpr S_SPAWN::S_SPAWN(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : players_(){}
+  : objects_(){}
 struct S_SPAWNDefaultTypeInternal {
   constexpr S_SPAWNDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -115,7 +115,7 @@ struct S_DESPAWNDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT S_DESPAWNDefaultTypeInternal _S_DESPAWN_default_instance_;
 constexpr C_MOVE::C_MOVE(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : playerinfo_(nullptr){}
+  : positioninfo_(nullptr){}
 struct C_MOVEDefaultTypeInternal {
   constexpr C_MOVEDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -127,7 +127,7 @@ struct C_MOVEDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT C_MOVEDefaultTypeInternal _C_MOVE_default_instance_;
 constexpr S_MOVE::S_MOVE(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : playerinfo_(nullptr){}
+  : positioninfo_(nullptr){}
 struct S_MOVEDefaultTypeInternal {
   constexpr S_MOVEDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -208,7 +208,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Protocol_2eproto::offsets[] PR
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::Protocol::S_SPAWN, players_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S_SPAWN, objects_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::S_DESPAWN, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -220,13 +220,13 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Protocol_2eproto::offsets[] PR
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::Protocol::C_MOVE, playerinfo_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::C_MOVE, positioninfo_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::S_MOVE, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::Protocol::S_MOVE, playerinfo_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S_MOVE, positioninfo_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::C_CHAT, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -275,18 +275,18 @@ const char descriptor_table_protodef_Protocol_2eproto[] PROTOBUF_SECTION_VARIABL
   "\n\016Protocol.proto\022\010Protocol\032\nEnum.proto\032\014"
   "Struct.proto\"\t\n\007C_LOGIN\"C\n\007S_LOGIN\022\021\n\tsu"
   "ccessed\030\001 \001(\010\022%\n\007players\030\002 \003(\0132\024.Protoco"
-  "l.PlayerInfo\"#\n\014C_ENTER_GAME\022\023\n\013playerIn"
+  "l.ObjectInfo\"#\n\014C_ENTER_GAME\022\023\n\013playerIn"
   "dex\030\001 \001(\004\"G\n\014S_ENTER_GAME\022\021\n\tsuccessed\030\001"
-  " \001(\010\022$\n\006player\030\002 \001(\0132\024.Protocol.PlayerIn"
+  " \001(\010\022$\n\006player\030\002 \001(\0132\024.Protocol.ObjectIn"
   "fo\"\016\n\014C_LEAVE_GAME\"\016\n\014S_LEAVE_GAME\"0\n\007S_"
-  "SPAWN\022%\n\007players\030\001 \003(\0132\024.Protocol.Player"
-  "Info\"\036\n\tS_DESPAWN\022\021\n\tobjectIds\030\001 \003(\004\"2\n\006"
-  "C_MOVE\022(\n\nplayerInfo\030\001 \001(\0132\024.Protocol.Pl"
-  "ayerInfo\"2\n\006S_MOVE\022(\n\nplayerInfo\030\001 \001(\0132\024"
-  ".Protocol.PlayerInfo\"\025\n\006C_CHAT\022\013\n\003msg\030\001 "
-  "\001(\t\"\'\n\006S_CHAT\022\020\n\010playerId\030\001 \001(\004\022\013\n\003msg\030\002"
-  " \001(\tB\033\252\002\030Google.Protobuf.Protocolb\006proto"
-  "3"
+  "SPAWN\022%\n\007objects\030\001 \003(\0132\024.Protocol.Object"
+  "Info\"\036\n\tS_DESPAWN\022\021\n\tobjectIds\030\001 \003(\004\"6\n\006"
+  "C_MOVE\022,\n\014positionInfo\030\001 \001(\0132\026.Protocol."
+  "PositionInfo\"6\n\006S_MOVE\022,\n\014positionInfo\030\001"
+  " \001(\0132\026.Protocol.PositionInfo\"\025\n\006C_CHAT\022\013"
+  "\n\003msg\030\001 \001(\t\"\'\n\006S_CHAT\022\020\n\010playerId\030\001 \001(\004\022"
+  "\013\n\003msg\030\002 \001(\tB\033\252\002\030Google.Protobuf.Protoco"
+  "lb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Protocol_2eproto_deps[2] = {
   &::descriptor_table_Enum_2eproto,
@@ -294,7 +294,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Protocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Protocol_2eproto = {
-  false, false, 561, descriptor_table_protodef_Protocol_2eproto, "Protocol.proto", 
+  false, false, 569, descriptor_table_protodef_Protocol_2eproto, "Protocol.proto", 
   &descriptor_table_Protocol_2eproto_once, descriptor_table_Protocol_2eproto_deps, 2, 12,
   schemas, file_default_instances, TableStruct_Protocol_2eproto::offsets,
   file_level_metadata_Protocol_2eproto, file_level_enum_descriptors_Protocol_2eproto, file_level_service_descriptors_Protocol_2eproto,
@@ -537,7 +537,7 @@ const char* S_LOGIN::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::in
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // repeated .Protocol.PlayerInfo players = 2;
+      // repeated .Protocol.ObjectInfo players = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
           ptr -= 1;
@@ -584,7 +584,7 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(1, this->_internal_successed(), target);
   }
 
-  // repeated .Protocol.PlayerInfo players = 2;
+  // repeated .Protocol.ObjectInfo players = 2;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->_internal_players_size()); i < n; i++) {
     target = stream->EnsureSpace(target);
@@ -608,7 +608,7 @@ size_t S_LOGIN::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated .Protocol.PlayerInfo players = 2;
+  // repeated .Protocol.ObjectInfo players = 2;
   total_size += 1UL * this->_internal_players_size();
   for (const auto& msg : this->players_) {
     total_size +=
@@ -882,10 +882,10 @@ void C_ENTER_GAME::InternalSwap(C_ENTER_GAME* other) {
 
 class S_ENTER_GAME::_Internal {
  public:
-  static const ::Protocol::PlayerInfo& player(const S_ENTER_GAME* msg);
+  static const ::Protocol::ObjectInfo& player(const S_ENTER_GAME* msg);
 };
 
-const ::Protocol::PlayerInfo&
+const ::Protocol::ObjectInfo&
 S_ENTER_GAME::_Internal::player(const S_ENTER_GAME* msg) {
   return *msg->player_;
 }
@@ -905,7 +905,7 @@ S_ENTER_GAME::S_ENTER_GAME(const S_ENTER_GAME& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   if (from._internal_has_player()) {
-    player_ = new ::Protocol::PlayerInfo(*from.player_);
+    player_ = new ::Protocol::ObjectInfo(*from.player_);
   } else {
     player_ = nullptr;
   }
@@ -968,7 +968,7 @@ const char* S_ENTER_GAME::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_I
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // .Protocol.PlayerInfo player = 2;
+      // .Protocol.ObjectInfo player = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
           ptr = ctx->ParseMessage(_internal_mutable_player(), ptr);
@@ -1010,7 +1010,7 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(1, this->_internal_successed(), target);
   }
 
-  // .Protocol.PlayerInfo player = 2;
+  // .Protocol.ObjectInfo player = 2;
   if (this->has_player()) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
@@ -1034,7 +1034,7 @@ size_t S_ENTER_GAME::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // .Protocol.PlayerInfo player = 2;
+  // .Protocol.ObjectInfo player = 2;
   if (this->has_player()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
@@ -1078,7 +1078,7 @@ void S_ENTER_GAME::MergeFrom(const S_ENTER_GAME& from) {
   (void) cached_has_bits;
 
   if (from.has_player()) {
-    _internal_mutable_player()->::Protocol::PlayerInfo::MergeFrom(from._internal_player());
+    _internal_mutable_player()->::Protocol::ObjectInfo::MergeFrom(from._internal_player());
   }
   if (from.successed() != 0) {
     _internal_set_successed(from._internal_successed());
@@ -1442,19 +1442,19 @@ class S_SPAWN::_Internal {
  public:
 };
 
-void S_SPAWN::clear_players() {
-  players_.Clear();
+void S_SPAWN::clear_objects() {
+  objects_.Clear();
 }
 S_SPAWN::S_SPAWN(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena),
-  players_(arena) {
+  objects_(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
   // @@protoc_insertion_point(arena_constructor:Protocol.S_SPAWN)
 }
 S_SPAWN::S_SPAWN(const S_SPAWN& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
-      players_(from.players_) {
+      objects_(from.objects_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   // @@protoc_insertion_point(copy_constructor:Protocol.S_SPAWN)
 }
@@ -1488,7 +1488,7 @@ void S_SPAWN::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  players_.Clear();
+  objects_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -1498,13 +1498,13 @@ const char* S_SPAWN::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::in
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // repeated .Protocol.PlayerInfo players = 1;
+      // repeated .Protocol.ObjectInfo objects = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
           ptr -= 1;
           do {
             ptr += 1;
-            ptr = ctx->ParseMessage(_internal_add_players(), ptr);
+            ptr = ctx->ParseMessage(_internal_add_objects(), ptr);
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
           } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<10>(ptr));
@@ -1539,12 +1539,12 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated .Protocol.PlayerInfo players = 1;
+  // repeated .Protocol.ObjectInfo objects = 1;
   for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->_internal_players_size()); i < n; i++) {
+      n = static_cast<unsigned int>(this->_internal_objects_size()); i < n; i++) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(1, this->_internal_players(i), target, stream);
+      InternalWriteMessage(1, this->_internal_objects(i), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1563,9 +1563,9 @@ size_t S_SPAWN::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated .Protocol.PlayerInfo players = 1;
-  total_size += 1UL * this->_internal_players_size();
-  for (const auto& msg : this->players_) {
+  // repeated .Protocol.ObjectInfo objects = 1;
+  total_size += 1UL * this->_internal_objects_size();
+  for (const auto& msg : this->objects_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
@@ -1601,7 +1601,7 @@ void S_SPAWN::MergeFrom(const S_SPAWN& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  players_.MergeFrom(from.players_);
+  objects_.MergeFrom(from.objects_);
 }
 
 void S_SPAWN::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -1625,7 +1625,7 @@ bool S_SPAWN::IsInitialized() const {
 void S_SPAWN::InternalSwap(S_SPAWN* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  players_.InternalSwap(&other->players_);
+  objects_.InternalSwap(&other->objects_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata S_SPAWN::GetMetadata() const {
@@ -1840,18 +1840,18 @@ void S_DESPAWN::InternalSwap(S_DESPAWN* other) {
 
 class C_MOVE::_Internal {
  public:
-  static const ::Protocol::PlayerInfo& playerinfo(const C_MOVE* msg);
+  static const ::Protocol::PositionInfo& positioninfo(const C_MOVE* msg);
 };
 
-const ::Protocol::PlayerInfo&
-C_MOVE::_Internal::playerinfo(const C_MOVE* msg) {
-  return *msg->playerinfo_;
+const ::Protocol::PositionInfo&
+C_MOVE::_Internal::positioninfo(const C_MOVE* msg) {
+  return *msg->positioninfo_;
 }
-void C_MOVE::clear_playerinfo() {
-  if (GetArenaForAllocation() == nullptr && playerinfo_ != nullptr) {
-    delete playerinfo_;
+void C_MOVE::clear_positioninfo() {
+  if (GetArenaForAllocation() == nullptr && positioninfo_ != nullptr) {
+    delete positioninfo_;
   }
-  playerinfo_ = nullptr;
+  positioninfo_ = nullptr;
 }
 C_MOVE::C_MOVE(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
@@ -1862,16 +1862,16 @@ C_MOVE::C_MOVE(::PROTOBUF_NAMESPACE_ID::Arena* arena)
 C_MOVE::C_MOVE(const C_MOVE& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_playerinfo()) {
-    playerinfo_ = new ::Protocol::PlayerInfo(*from.playerinfo_);
+  if (from._internal_has_positioninfo()) {
+    positioninfo_ = new ::Protocol::PositionInfo(*from.positioninfo_);
   } else {
-    playerinfo_ = nullptr;
+    positioninfo_ = nullptr;
   }
   // @@protoc_insertion_point(copy_constructor:Protocol.C_MOVE)
 }
 
 void C_MOVE::SharedCtor() {
-playerinfo_ = nullptr;
+positioninfo_ = nullptr;
 }
 
 C_MOVE::~C_MOVE() {
@@ -1882,7 +1882,7 @@ C_MOVE::~C_MOVE() {
 
 void C_MOVE::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  if (this != internal_default_instance()) delete playerinfo_;
+  if (this != internal_default_instance()) delete positioninfo_;
 }
 
 void C_MOVE::ArenaDtor(void* object) {
@@ -1901,10 +1901,10 @@ void C_MOVE::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  if (GetArenaForAllocation() == nullptr && playerinfo_ != nullptr) {
-    delete playerinfo_;
+  if (GetArenaForAllocation() == nullptr && positioninfo_ != nullptr) {
+    delete positioninfo_;
   }
-  playerinfo_ = nullptr;
+  positioninfo_ = nullptr;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -1914,10 +1914,10 @@ const char* C_MOVE::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::int
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // .Protocol.PlayerInfo playerInfo = 1;
+      // .Protocol.PositionInfo positionInfo = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
-          ptr = ctx->ParseMessage(_internal_mutable_playerinfo(), ptr);
+          ptr = ctx->ParseMessage(_internal_mutable_positioninfo(), ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -1950,12 +1950,12 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Protocol.PlayerInfo playerInfo = 1;
-  if (this->has_playerinfo()) {
+  // .Protocol.PositionInfo positionInfo = 1;
+  if (this->has_positioninfo()) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(
-        1, _Internal::playerinfo(this), target, stream);
+        1, _Internal::positioninfo(this), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1974,11 +1974,11 @@ size_t C_MOVE::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // .Protocol.PlayerInfo playerInfo = 1;
-  if (this->has_playerinfo()) {
+  // .Protocol.PositionInfo positionInfo = 1;
+  if (this->has_positioninfo()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *playerinfo_);
+        *positioninfo_);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -2012,8 +2012,8 @@ void C_MOVE::MergeFrom(const C_MOVE& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.has_playerinfo()) {
-    _internal_mutable_playerinfo()->::Protocol::PlayerInfo::MergeFrom(from._internal_playerinfo());
+  if (from.has_positioninfo()) {
+    _internal_mutable_positioninfo()->::Protocol::PositionInfo::MergeFrom(from._internal_positioninfo());
   }
 }
 
@@ -2038,7 +2038,7 @@ bool C_MOVE::IsInitialized() const {
 void C_MOVE::InternalSwap(C_MOVE* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(playerinfo_, other->playerinfo_);
+  swap(positioninfo_, other->positioninfo_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata C_MOVE::GetMetadata() const {
@@ -2051,18 +2051,18 @@ void C_MOVE::InternalSwap(C_MOVE* other) {
 
 class S_MOVE::_Internal {
  public:
-  static const ::Protocol::PlayerInfo& playerinfo(const S_MOVE* msg);
+  static const ::Protocol::PositionInfo& positioninfo(const S_MOVE* msg);
 };
 
-const ::Protocol::PlayerInfo&
-S_MOVE::_Internal::playerinfo(const S_MOVE* msg) {
-  return *msg->playerinfo_;
+const ::Protocol::PositionInfo&
+S_MOVE::_Internal::positioninfo(const S_MOVE* msg) {
+  return *msg->positioninfo_;
 }
-void S_MOVE::clear_playerinfo() {
-  if (GetArenaForAllocation() == nullptr && playerinfo_ != nullptr) {
-    delete playerinfo_;
+void S_MOVE::clear_positioninfo() {
+  if (GetArenaForAllocation() == nullptr && positioninfo_ != nullptr) {
+    delete positioninfo_;
   }
-  playerinfo_ = nullptr;
+  positioninfo_ = nullptr;
 }
 S_MOVE::S_MOVE(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
@@ -2073,16 +2073,16 @@ S_MOVE::S_MOVE(::PROTOBUF_NAMESPACE_ID::Arena* arena)
 S_MOVE::S_MOVE(const S_MOVE& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_playerinfo()) {
-    playerinfo_ = new ::Protocol::PlayerInfo(*from.playerinfo_);
+  if (from._internal_has_positioninfo()) {
+    positioninfo_ = new ::Protocol::PositionInfo(*from.positioninfo_);
   } else {
-    playerinfo_ = nullptr;
+    positioninfo_ = nullptr;
   }
   // @@protoc_insertion_point(copy_constructor:Protocol.S_MOVE)
 }
 
 void S_MOVE::SharedCtor() {
-playerinfo_ = nullptr;
+positioninfo_ = nullptr;
 }
 
 S_MOVE::~S_MOVE() {
@@ -2093,7 +2093,7 @@ S_MOVE::~S_MOVE() {
 
 void S_MOVE::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  if (this != internal_default_instance()) delete playerinfo_;
+  if (this != internal_default_instance()) delete positioninfo_;
 }
 
 void S_MOVE::ArenaDtor(void* object) {
@@ -2112,10 +2112,10 @@ void S_MOVE::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  if (GetArenaForAllocation() == nullptr && playerinfo_ != nullptr) {
-    delete playerinfo_;
+  if (GetArenaForAllocation() == nullptr && positioninfo_ != nullptr) {
+    delete positioninfo_;
   }
-  playerinfo_ = nullptr;
+  positioninfo_ = nullptr;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -2125,10 +2125,10 @@ const char* S_MOVE::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::int
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // .Protocol.PlayerInfo playerInfo = 1;
+      // .Protocol.PositionInfo positionInfo = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
-          ptr = ctx->ParseMessage(_internal_mutable_playerinfo(), ptr);
+          ptr = ctx->ParseMessage(_internal_mutable_positioninfo(), ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -2161,12 +2161,12 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .Protocol.PlayerInfo playerInfo = 1;
-  if (this->has_playerinfo()) {
+  // .Protocol.PositionInfo positionInfo = 1;
+  if (this->has_positioninfo()) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(
-        1, _Internal::playerinfo(this), target, stream);
+        1, _Internal::positioninfo(this), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -2185,11 +2185,11 @@ size_t S_MOVE::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // .Protocol.PlayerInfo playerInfo = 1;
-  if (this->has_playerinfo()) {
+  // .Protocol.PositionInfo positionInfo = 1;
+  if (this->has_positioninfo()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *playerinfo_);
+        *positioninfo_);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -2223,8 +2223,8 @@ void S_MOVE::MergeFrom(const S_MOVE& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.has_playerinfo()) {
-    _internal_mutable_playerinfo()->::Protocol::PlayerInfo::MergeFrom(from._internal_playerinfo());
+  if (from.has_positioninfo()) {
+    _internal_mutable_positioninfo()->::Protocol::PositionInfo::MergeFrom(from._internal_positioninfo());
   }
 }
 
@@ -2249,7 +2249,7 @@ bool S_MOVE::IsInitialized() const {
 void S_MOVE::InternalSwap(S_MOVE* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(playerinfo_, other->playerinfo_);
+  swap(positioninfo_, other->positioninfo_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata S_MOVE::GetMetadata() const {

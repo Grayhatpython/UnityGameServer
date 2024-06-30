@@ -22,10 +22,21 @@ public:
 		return item;
 	}
 
+	T LocklessPop()
+	{
+		//	TEMP : 스마트 포인터인 경우 가능
+		if (_items.empty())
+			return T();
+
+		auto item = _items.front();
+		_items.pop();
+		return item;
+	}
+
 	void PopAll(OUT Vector<T>& items)
 	{
 		WRITE_LOCK;
-		while (T item = Pop())
+		while (T item = LocklessPop())
 			items.push_back(item);
 	}
 	void Clear()
