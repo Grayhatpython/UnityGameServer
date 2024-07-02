@@ -113,23 +113,26 @@ public abstract class BaseController : MonoBehaviour
     protected virtual void UpdateIdle() { }
     protected virtual void UpdateMoving()
     {
-        Vector3 destPos = new Vector3(_destInfo.X, _destInfo.Y, _destInfo.Z);
-        Vector3 moveDir = destPos - transform.position;
+        transform.rotation = Quaternion.Euler(0.0f, _destInfo.Yaw, 0.0f);
+        transform.position = Vector3.MoveTowards(transform.position, transform.position + transform.forward, _speed * Time.deltaTime);
 
-        float distance = moveDir.magnitude;
-        if(distance < 0.1f)
-        {
-            transform.position = destPos;
-            MoveToNextPos();
-        }
-        else
-        {
-            float moveDist = Mathf.Clamp(_speed * Time.deltaTime, 0, moveDir.magnitude);
-            transform.position += moveDir.normalized * moveDist;
-            Quaternion destRotation  = Quaternion.Euler(0.0f, _destInfo.Yaw, 0.0f);
-            transform.rotation = Quaternion.Slerp(transform.rotation, destRotation, 20 * Time.deltaTime);
-            //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDir), 20 * Time.deltaTime);
-        }
+        //Vector3 destPos = new Vector3(_destInfo.X, _destInfo.Y, _destInfo.Z);
+        //Vector3 moveDir = destPos - transform.position;
+
+        //float distance = moveDir.magnitude;
+        //if(distance < 0.1f)
+        //{
+        //    transform.position = destPos;
+        //    MoveToNextPos();
+        //}
+        //else
+        //{
+        //    float moveDist = Mathf.Clamp(_speed * Time.deltaTime, 0, moveDir.magnitude);
+        //    transform.position += moveDir.normalized * moveDist;
+        //    Quaternion destRotation  = Quaternion.Euler(0.0f, _destInfo.Yaw, 0.0f);
+        //    transform.rotation = Quaternion.Slerp(transform.rotation, destRotation, 20 * Time.deltaTime);
+        //    //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDir), 20 * Time.deltaTime);
+        //}
     }
 
     protected virtual void UpdateSkill() { }

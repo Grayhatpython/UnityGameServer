@@ -11,24 +11,25 @@ using static Define;
 public class MyPlayerController : PlayerController
 {
     bool        _moveKeyPressed = false;
-    float       _movePacketSendTick = 0.2f;
     Vector3     _moveDirection;
     float       _moveYaw = 0.0f;
 
     Vector3     _nextInputDir = Vector3.zero;   
     Vector3     _prevInputDir = Vector3.zero;
 
+    const float MOVE_PACKET_SEND_TICK = 0.2f;
+    float       _movePacketSendUpdateTick = MOVE_PACKET_SEND_TICK;
+
     protected override void Init()
     {
         base.Init();
 
-        StartCoroutine(CoStartMovePacketSend());
+        //StartCoroutine(CoStartMovePacketSend());
     }
 
     protected override void UpdateController()
     {
         UpdateInput();
-
         base.UpdateController();
 
         {
@@ -40,15 +41,15 @@ public class MyPlayerController : PlayerController
                 _prevInputDir = _nextInputDir;
             }
 
-            //if (_nextInputDir == Vector3.zero)
-            //    MoveState = MoveState.Idle;
-            //else
-            //    MoveState = MoveState.Run;
+            _movePacketSendUpdateTick -= Time.deltaTime;
 
-            if (forceMovePacketSend)
+            if (_movePacketSendUpdateTick <= 0.0f || forceMovePacketSend)
             {
+                _movePacketSendUpdateTick = MOVE_PACKET_SEND_TICK;
+
                 C_MOVE forceMovePacket = new C_MOVE();
-                forceMovePacket.PositionInfo = DestInfo;
+                forceMovePacket.PositionInfo = Info;
+                forceMovePacket.PositionInfo.Yaw = _moveYaw;
                 forceMovePacket.PositionInfo.State = MoveState;
                 Managers.Network.Send(forceMovePacket);
             }
@@ -57,6 +58,7 @@ public class MyPlayerController : PlayerController
 
     //float _idle_run_ratio = 0.0f;
 
+    /*
     IEnumerator CoStartMovePacketSend()
     {
         // 대기 시간
@@ -68,6 +70,7 @@ public class MyPlayerController : PlayerController
             Managers.Network.Send(movePacket);
         }
     }
+    */
 
     protected override void MoveToNextPos()
     {
@@ -133,5 +136,7 @@ public class MyPlayerController : PlayerController
             _destInfo.Z = destPos.z;
             _destInfo.Yaw = _moveYaw;
         }
+        else
+            MoveState = MoveState.Idle;
     }
 }

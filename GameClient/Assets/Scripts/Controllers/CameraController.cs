@@ -14,7 +14,7 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Confined;
+        //Cursor.lockState = CursorLockMode.Confined;
 
         _moveDelta.x += Input.GetAxis("Mouse X")/* * mouseSensitivity * Time.deltaTime*/;
         _moveDelta.y -= Input.GetAxis("Mouse Y")/* * mouseSensitivity * Time.deltaTime*/;
@@ -25,15 +25,15 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.F1))
-        {
-            if(_cursorLocked)
-                Cursor.lockState = CursorLockMode.None;
-            else
-                Cursor.lockState = CursorLockMode.Confined;
+        //if (Input.GetKey(KeyCode.F1))
+        //{
+        //    if(_cursorLocked)
+        //        Cursor.lockState = CursorLockMode.None;
+        //    else
+        //        Cursor.lockState = CursorLockMode.Confined;
 
-            _cursorLocked = !_cursorLocked;
-        }
+        //    _cursorLocked = !_cursorLocked;
+        //}
 
         if (MyPlayer)
         {
